@@ -2,11 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Home from "./pages/home/Home";
 import Signup from "./pages/auth/Signup";
+import { isAuthenticatedLoader } from "./utils/isAuthenticatedLoader";
 
 export const router = createBrowserRouter([
   { 
     path: "/", 
-    Component: Home
+    Component: Home,
+    loader: () => isAuthenticatedLoader(),
   },
   {
     path: "auth",
@@ -17,7 +19,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'signup',
-        Component: Login
+        Component: Signup
       }
     ]
   },

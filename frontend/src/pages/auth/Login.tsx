@@ -3,6 +3,9 @@ import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { loginAction } from "./authActions";
+import { userTokensAtom } from "@/atoms/userAtoms";
+import { useSetAtom } from "jotai";
+import AppHeader from "@/components/custom/AppHeader";
 
 interface LoginFormData {
   username: string;
@@ -11,6 +14,9 @@ interface LoginFormData {
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const setUserTokens = useSetAtom(userTokensAtom);
+
   const {
     register,
     handleSubmit,
@@ -22,7 +28,9 @@ const Login = () => {
     // TODO: Implement login logic
     try {
       const response = await loginAction(data);
+      setUserTokens(response.data)
       console.log(response);
+      navigate("/")
     } catch (error) {
       console.error(error);
     }
@@ -30,9 +38,12 @@ const Login = () => {
 
   return (
     <>
-      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-[100vh] bg-background'/>
+      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-screen bg-background'/>
       <section className="mx-auto w-1/3 pt-20">
-        <div className="text-center my-6 text-3xl font-semibold">Login</div>
+      <div className="flex justify-center">
+          <AppHeader size="48px" />
+        </div>
+        <div className="text-center my-6 text-3xl font-medium">Login</div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
             <Input
@@ -64,7 +75,7 @@ const Login = () => {
         </form>
         <div className="text-sm text-center my-4">
           No Account? <Button variant="link" className="text-blue-700" onClick={() => {
-            navigate("/signup")
+            navigate("/auth/signup")
           }}>Sign Up</Button>
         </div>
       </section>

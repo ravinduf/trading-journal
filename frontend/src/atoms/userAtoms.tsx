@@ -2,6 +2,7 @@ import type { Getter } from "jotai";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
+
 export interface IUser {
   id: string;
   email: string;
@@ -55,3 +56,9 @@ export const isAuthenticatedAtom = atom((get: Getter) => {
 
   return true;
 });
+
+export const logoutAtom = atom(null, (_get, set) => {
+  set(userAtom, null);
+  set(userTokensAtom, null);
+})
+

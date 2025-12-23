@@ -6,6 +6,6 @@ export const loginAction = async (body: { username: string, password: string}) =
 }
 
 export const signupAction = async (body: { username: string, email: string, password: string, re_password: string}) => {
-  const response = await apiClient.post('/auth/users/', body);
+  const response = await apiClient.post('/users/', body);
   return response;
 }

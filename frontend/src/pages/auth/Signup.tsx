@@ -1,23 +1,20 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { loginAction } from "./authActions";
-import { userTokensAtom } from "@/atoms/userAtoms";
-import { useSetAtom } from "jotai";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import {  signupAction } from "./authActions";
 import AppHeader from "@/components/custom/AppHeader";
+import { toast } from "sonner";
 
 interface SignupFormData {
   username: string;
-  email: string,
+  email: string;
   password: string;
-  re_password: string,
+  re_password: string;
 }
 
 const Signup = () => {
   const navigate = useNavigate();
-
-  const setUserTokens = useSetAtom(userTokensAtom);
 
   const {
     register,
@@ -29,19 +26,33 @@ const Signup = () => {
   const onSubmit = async (data: SignupFormData) => {
     console.log(data);
     // TODO: Implement login logic
-    try {
-      const response = await loginAction(data);
-      setUserTokens(response.data)
-      console.log(response);
-      navigate("/")
-    } catch (error) {
-      console.error(error);
-    }
+    toast.promise(signupAction(data), {
+      loading: "Creating User!!!",
+      success: () => {
+        navigate("/auth/login");
+        return "User Created!";
+      },
+      error: (error) => {
+        console.log("---------error--------", error);
+        const errors: string[] = Object.values(error.response.data);
+        return (
+          <>
+            {errors.map((error) => (
+              <li>{error}</li>
+            ))}
+          </>
+        );
+      },
+    });
   };
 
   return (
     <>
-      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-screen bg-background' />
+      <img
+        src={"/login-bg.webp"}
+        alt="bg"
+        className="-z-10 absolute h-screen bg-background"
+      />
       <section className="mx-auto w-1/3 pt-20">
         <div className="flex justify-center">
           <AppHeader size="48px" />
@@ -58,12 +69,14 @@ const Signup = () => {
               })}
             />
             {errors.username && (
-              <p className="mt-1 text-sm text-destructive">{errors.username.message}</p>
+              <p className="mt-1 text-sm text-destructive">
+                {errors.username.message}
+              </p>
             )}
           </div>
           <div>
             <Input
-              type="email"
+              type="text"
               placeholder="Email"
               aria-invalid={errors.email ? "true" : "false"}
               {...register("email", {
@@ -75,7 +88,9 @@ const Signup = () => {
               })}
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>
+              <p className="mt-1 text-sm text-destructive">
+                {errors.email.message}
+              </p>
             )}
           </div>
           <div>
@@ -92,7 +107,9 @@ const Signup = () => {
               })}
             />
             {errors.password && (
-              <p className="mt-1 text-sm text-destructive">{errors.password.message}</p>
+              <p className="mt-1 text-sm text-destructive">
+                {errors.password.message}
+              </p>
             )}
           </div>
           <div>
@@ -107,19 +124,30 @@ const Signup = () => {
               })}
             />
             {errors.re_password && (
-              <p className="mt-1 text-sm text-destructive">{errors.re_password.message}</p>
+              <p className="mt-1 text-sm text-destructive">
+                {errors.re_password.message}
+              </p>
             )}
           </div>
-          <Button type="submit" className="w-full mt-8">Login</Button>
+          <Button type="submit" className="w-full mt-8">
+            Login
+          </Button>
         </form>
         <div className="text-sm text-center my-4">
-          Already have an Account? <Button variant="link" className="text-blue-700" onClick={() => {
-            navigate("/auth/login")
-          }}>Login</Button>
+          Already have an Account?{" "}
+          <Button
+            variant="link"
+            className="text-blue-700"
+            onClick={() => {
+              navigate("/auth/login");
+            }}
+          >
+            Signup
+          </Button>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

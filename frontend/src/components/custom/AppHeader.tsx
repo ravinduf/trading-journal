@@ -1,4 +1,3 @@
-import React from 'react'
 
 interface IAppHeader {
   size: string
@@ -6,7 +5,7 @@ interface IAppHeader {
 const AppHeader = (props: IAppHeader) => {
   const { size } = props;
   return (
-    <span className='font-orbitron  text-white text-center' style={{ fontSize: size }}>Crypto Trader</span>
+    <span className='font-orbitron  text-blue-500/80 text-center' style={{ fontSize: size }}>Crypto Trader</span>
   )
 }
 

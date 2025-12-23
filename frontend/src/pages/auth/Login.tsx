@@ -47,7 +47,7 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
             <Input
-              type="username"
+              type="text"
               placeholder="Username"
               aria-invalid={errors.username ? "true" : "false"}
               {...register("username", {

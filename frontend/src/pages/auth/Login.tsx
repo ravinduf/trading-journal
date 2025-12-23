@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { loginAction } from "./authActions";
 import { userTokensAtom } from "@/atoms/userAtoms";
 import { useSetAtom } from "jotai";
-import AppHeader from "@/components/custom/AppHeader";
+import AppHeader from "@/components/custom/appHeader/AppHeader";
 
 interface LoginFormData {
   username: string;

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {  signupAction } from "./authActions";
-import AppHeader from "@/components/custom/AppHeader";
+import AppHeader from "@/components/custom/appHeader/AppHeader";
 import { toast } from "sonner";
 
 interface SignupFormData {

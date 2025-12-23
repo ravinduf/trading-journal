@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { loginAction } from "./authActions";
 import { userTokensAtom } from "@/atoms/userAtoms";
 import { useSetAtom } from "jotai";
+import AppHeader from "@/components/custom/AppHeader";
 
 interface SignupFormData {
   username: string;
@@ -40,8 +41,11 @@ const Signup = () => {
 
   return (
     <>
-      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-screen bg-background'/>
+      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-screen bg-background' />
       <section className="mx-auto w-1/3 pt-20">
+        <div className="flex justify-center">
+          <AppHeader size="48px" />
+        </div>
         <div className="text-center my-6 text-3xl font-medium">Sign Up</div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>

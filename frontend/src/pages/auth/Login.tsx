@@ -6,6 +6,7 @@ import { loginAction } from "./authActions";
 import { userTokensAtom } from "@/atoms/userAtoms";
 import { useSetAtom } from "jotai";
 import AppHeader from "@/components/custom/appHeader/AppHeader";
+import { toast } from "sonner";
 
 interface LoginFormData {
   username: string;
@@ -27,6 +28,17 @@ const Login = () => {
     console.log(data);
     // TODO: Implement login logic
     try {
+      toast.promise(loginAction(data), {
+        loading: "Logging In!",
+        success: () => {
+          navigate("/")
+          return "Successfully Logged In!"
+        },
+        error: (error) => {
+          console.error("-------error--------", error);
+          return "Error Logging In!, Please Try again later!"
+        }
+      })
       const response = await loginAction(data);
       setUserTokens(response.data)
       console.log(response);

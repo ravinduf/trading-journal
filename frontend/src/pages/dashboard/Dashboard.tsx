@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Home = () => {
+const Dashboard = () => {
   return (
-    <div className='text-white'>Home</div>
+    <div className='text-white'>Dashboard</div>
   )
 }
 
-export default Home
+export default Dashboard

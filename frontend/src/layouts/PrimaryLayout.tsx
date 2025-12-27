@@ -6,7 +6,9 @@ const PrimaryLayout = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className="px-6 py-4">
+        <Outlet />
+      </div>
     </>
   );
 };

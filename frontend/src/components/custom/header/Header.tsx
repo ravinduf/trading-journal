@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import AppHeader from "../appHeader/AppHeader";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useSetAtom } from "jotai";
 import { logoutAtom } from "@/atoms/userAtoms";

@@ -2,7 +2,6 @@ import type { Getter } from "jotai";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { isTokenExpired } from "@/utils/jwtUtils";
-import { redirect } from "react-router-dom";
 
 
 export interface IUser {

@@ -1,7 +1,12 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/button";
 import { LineChart, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+gsap.registerPlugin(useGSAP);
 
 const TICKER_ITEMS = [
   { pair: "BTC/USDT", change: "+2.45%", price: "67,432.12", up: true },
@@ -12,6 +17,48 @@ const TICKER_ITEMS = [
 ] as const;
 
 const Home = () => {
+  // Outer wrapper (overflow hidden): useGSAP scopes context cleanup to this subtree.
+  const tickerContainerRef = useRef<HTMLDivElement>(null);
+  // Inner row: two identical ticker segments side by side; we animate translateX.
+  const tickerTrackRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const track = tickerTrackRef.current;
+      if (!track) return;
+
+      let tween: gsap.core.Tween | undefined;
+
+      // (Re)build the loop: measure width, tween by exactly one segment so the duplicate lines up.
+      const run = () => {
+        tween?.kill();
+        gsap.set(track, { x: 0 });
+        // scrollWidth is both copies; half is one copy — seamless when repeat snaps back to 0.
+        const half = track.scrollWidth / 2;
+        if (half < 1) return;
+        tween = gsap.to(track, {
+          x: -half,
+          duration: 30,
+          ease: "none",
+          repeat: -1,
+        });
+      };
+
+      run();
+      // Reflow (viewport, fonts, etc.) changes segment width — restart so speed/distance stay correct.
+      const ro = new ResizeObserver(() => {
+        run();
+      });
+      ro.observe(track);
+
+      return () => {
+        ro.disconnect();
+        tween?.kill();
+      };
+    },
+    { scope: tickerContainerRef }
+  );
+
   return (
     <div className="min-h-screen bg-[#11121f] font-[Inter,system-ui,sans-serif] text-[#e2e1f3] selection:bg-white selection:text-[#11121f]">
       <main
@@ -54,11 +101,11 @@ const Home = () => {
           </div>
         </section>
 
-        <div className="w-full overflow-hidden border-y border-white/5 bg-[#191b27] py-3 whitespace-nowrap">
-          <div
-            className="flex w-max gap-12"
-            style={{ animation: "grimoire-marquee 30s linear infinite" }}
-          >
+        <div
+          ref={tickerContainerRef}
+          className="w-full overflow-hidden border-y border-white/5 bg-[#191b27] py-3 whitespace-nowrap"
+        >
+          <div ref={tickerTrackRef} className="flex w-max gap-12 will-change-transform">
             {[0, 1].map((dup) => (
               <div key={dup} className="flex items-center gap-12">
                 {TICKER_ITEMS.map((row) => (

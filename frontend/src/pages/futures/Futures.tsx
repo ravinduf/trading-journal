@@ -6,13 +6,13 @@ const Futures = () => {
   return (
     <section>
       <div className="my-4 text-base">
-        <Tabs defaultValue="summary" className="w-[400px]">
+        <Tabs defaultValue="summary" >
           <TabsList>
             <TabsTrigger value="summary">Summary</TabsTrigger>
             <TabsTrigger value="trades">Trades</TabsTrigger>
           </TabsList>
-          <TabsContent value="summary"><Summary /></TabsContent>
-          <TabsContent value="trades">
+          <TabsContent value="summary" className="w-full"><Summary /></TabsContent>
+          <TabsContent value="trades" className="w-full!">
             <Trades />
           </TabsContent>
         </Tabs>

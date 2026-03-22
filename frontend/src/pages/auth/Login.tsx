@@ -1,12 +1,14 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { loginAction } from "./authActions";
 import { userTokensAtom } from "@/atoms/userAtoms";
 import { useSetAtom } from "jotai";
-import AppHeader from "@/components/custom/appHeader/AppHeader";
 import { toast } from "sonner";
+import { ArrowRight, AtSign, Lock } from "lucide-react";
+import { cn } from "@/lib/utils";
+import AppHeader from "@/components/custom/appHeader/AppHeader";
 
 interface LoginFormData {
   username: string;
@@ -15,7 +17,6 @@ interface LoginFormData {
 
 const Login = () => {
   const navigate = useNavigate();
-
   const setUserTokens = useSetAtom(userTokensAtom);
 
   const {
@@ -25,74 +26,141 @@ const Login = () => {
   } = useForm<LoginFormData>();
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log(data);
-    // TODO: Implement login logic
     try {
-      toast.promise(loginAction(data), {
-        loading: "Logging In!",
-        success: () => {
-          navigate("/")
-          return "Successfully Logged In!"
-        },
-        error: (error) => {
-          console.error("-------error--------", error);
-          return "Error Logging In!, Please Try again later!"
+      await toast.promise(
+        loginAction(data).then((response) => {
+          setUserTokens(response.data);
+          navigate("/");
+          return response;
+        }),
+        {
+          loading: "Logging In!",
+          success: "Successfully Logged In!",
+          error: (error) => {
+            console.error("-------error--------", error);
+            return "Error Logging In!, Please Try again later!";
+          },
         }
-      })
-      const response = await loginAction(data);
-      setUserTokens(response.data)
-      console.log(response);
-      navigate("/")
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
-  return (
-    <>
-      <img src={"/login-bg.webp"} alt="bg" className='-z-10 absolute h-screen bg-background' />
-      <section className="mx-auto w-1/3 pt-20">
-        <div className="flex justify-center">
-          <AppHeader size="48px" />
-        </div>
-        <div className="text-center my-6 text-3xl font-medium">Login</div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div>
-            <Input
-              type="text"
-              placeholder="Username"
-              aria-invalid={errors.username ? "true" : "false"}
-              {...register("username", {
-                required: "Username is required",
-              })}
-            />
-            {errors.username && (
-              <p className="mt-1 text-sm text-destructive">{errors.username.message}</p>
-            )}
-          </div>
-          <div>
-            <Input
-              type="password"
-              placeholder="Password"
-              aria-invalid={errors.password ? "true" : "false"}
-              {...register("password", {
-                required: "Password is required",
-              })}
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-destructive">{errors.password.message}</p>
-            )}
-          </div>
-          <Button type="submit" className="w-full mt-8">Login</Button>
-        </form>
-        <div className="text-sm text-center my-4">
-          No Account? <Button variant="link" className="text-blue-700" onClick={() => {
-            navigate("/auth/signup")
-          }}>Sign Up</Button>
-        </div>
-      </section>
-    </>
-  )
-}
+  const inputClass =
+    "h-auto w-full rounded-lg border-0 bg-[#0c0d1a]/40 py-4 pr-4 pl-12 text-white shadow-none ring-1 ring-white/10 transition-all placeholder:text-white/20 focus-visible:bg-[#0c0d1a]/60 focus-visible:ring-white/40 focus-visible:ring-[1px]";
 
-export default Login
+  return (
+    <div className="auth-shell">
+      <div className="pointer-events-none absolute top-[-20%] left-[-10%] h-[60%] w-[60%] rounded-full bg-white/5 blur-[120px]" />
+      <div className="pointer-events-none absolute right-[-5%] bottom-[-10%] h-[40%] w-[40%] rounded-full bg-white/2 blur-[100px]" />
+
+      <div className="pointer-events-none fixed top-12 left-0 z-20 flex w-full flex-col items-center justify-center">
+        <div className="flex items-center gap-4">
+          <AppHeader variant="auth" as="h1" />
+        </div>
+      </div>
+
+      <main className="z-10 mt-2 w-full max-w-md">
+        <div
+          className={cn(
+            "flex flex-col gap-10 rounded-xl p-8 shadow-[0_40px_80px_rgba(0,0,0,0.5)] md:p-12",
+            "border-t border-white/8 bg-[rgba(17,18,31,0.6)] backdrop-blur-[20px]"
+          )}
+        >
+          <header className="space-y-2">
+            <h2 className="font-['Orbitron',sans-serif] text-3xl font-bold tracking-tight text-white">
+              Login
+            </h2>
+          </header>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-8"
+            noValidate
+          >
+            <div className="space-y-3">
+              <div className="group relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                  <AtSign
+                    className="size-[18px] text-white/30 transition-colors group-focus-within:text-white"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                </div>
+                <Input
+                  type="text"
+                  autoComplete="username"
+                  placeholder="User name"
+                  aria-invalid={errors.username ? "true" : "false"}
+                  className={inputClass}
+                  {...register("username", {
+                    required: "Username is required",
+                  })}
+                />
+              </div>
+              {errors.username && (
+                <p className="text-sm text-red-400">{errors.username.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-3">
+              <div className="group relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                  <Lock
+                    className="size-[18px] text-white/30 transition-colors group-focus-within:text-white"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                </div>
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  aria-invalid={errors.password ? "true" : "false"}
+                  className={inputClass}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+              </div>
+              {errors.password && (
+                <p className="text-sm text-red-400">{errors.password.message}</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className={cn(
+                "group h-auto w-full rounded-lg border-0 py-4 font-['Orbitron',sans-serif] text-sm font-bold tracking-widest text-[#2f3131] uppercase shadow-none",
+                "bg-linear-to-br from-white to-[#e2e2e2]",
+                "hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-[0.98]"
+              )}
+            >
+              <span>Login</span>
+              <ArrowRight
+                className="size-[18px] transition-transform group-hover:translate-x-1"
+                aria-hidden
+              />
+            </Button>
+          </form>
+
+          <footer className="flex flex-col items-center gap-4 border-t border-white/5 pt-6">
+            <p className="flex items-center gap-2 text-xs text-[#c4c7c8]">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/auth/signup"
+                className="font-bold text-white underline-offset-4 hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </footer>
+        </div>
+      </main>
+
+    </div>
+  );
+};
+
+export default Login;

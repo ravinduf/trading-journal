@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/button";
 import { LineChart, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
+import AppHeader, { APP_NAME } from "@/components/custom/appHeader/AppHeader";
 
 gsap.registerPlugin(useGSAP);
 
@@ -72,9 +73,7 @@ const Home = () => {
           <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-white/5 blur-[120px]" />
           <div className="absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-white/5 blur-[120px]" />
           <div className="relative z-10 max-w-4xl">
-            <h1 className="mb-6 font-['Orbitron',sans-serif] text-6xl font-black tracking-tight text-white md:text-8xl">
-              GRIMOIRE
-            </h1>
+            <AppHeader variant="hero" as="h1" />
             <h2 className="mb-12 font-['Orbitron',sans-serif] text-xl font-medium tracking-[0.2em] text-gray-500 uppercase md:text-2xl">
               Your Path to{" "}
               <span className="text-gray-400">Becoming the Edge</span>
@@ -264,11 +263,9 @@ const Home = () => {
         <footer className="border-t border-white/5 bg-[#11121f] px-8 py-12">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div>
-              <span className="font-['Orbitron',sans-serif] text-xl font-black tracking-widest text-white">
-                Grimoire
-              </span>
+              <AppHeader variant="footer" as="span" />
               <p className="mt-2 font-['Space_Grotesk',sans-serif] text-xs text-gray-600">
-                © 2024 GRIMOIRE TERMINAL. ALL RIGHTS RESERVED.
+                © 2024 {APP_NAME} ALL RIGHTS RESERVED.
               </p>
             </div>
             <div className="flex flex-wrap gap-8">
@@ -324,14 +321,7 @@ const Home = () => {
                 </a>
               </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3">
-              <div className="flex items-center gap-3">
-                <div className="size-2 animate-pulse rounded-full bg-green-500" />
-                <span className="font-['Space_Grotesk',sans-serif] text-[10px] tracking-widest text-gray-400 uppercase">
-                  System Status: Optimal
-                </span>
-              </div>
-            </div>
+           
           </div>
         </footer>
       </main>

@@ -7,8 +7,15 @@
 
 @theme inline {
   --color-background-color: #040510;
+  --font-body-inter: "Inter", system-ui, sans-serif;
   --font-irish-grover: "Irish Grover", system-ui, sans-serif;
   --font-orbitron: "Orbitron", system-ui, sans-serif;
+  --color-on-surface: #e2e1f3;
+  --min-height-auth-screen: 100vh;
+  --background-image-tactical-grid:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  --background-size-tactical-grid: 40px 40px;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -123,3 +130,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* bg-tactical-grid from --background-image-tactical-grid; size uses theme var (no bg-size-* utility from @theme in this setup) */
+  .auth-shell {
+    @apply relative flex min-h-auth-screen flex-col items-center justify-center 
+    overflow-hidden p-6 bg-background-color font-body-inter text-on-surface 
+    bg-tactical-grid;
+    background-size: var(--background-size-tactical-grid);
+  }
+}
+

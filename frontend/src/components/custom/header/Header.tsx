@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <nav className="px-6 py-3 bg-blue-400/10 backdrop-blur-md flex flex-row gap-6 items-center">
       <div className="flex flex-row gap-6 w-full items-center">
-        <AppHeader size="22px" />
+        <AppHeader variant="nav" size="22px" />
         <NavLink
           to="/dashboard"
           className={({ isActive }) => clsx({ "text-blue-300": isActive })}

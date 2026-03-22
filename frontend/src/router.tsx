@@ -9,6 +9,7 @@ import Futures from "./pages/futures/Futures";
 import RWA from "./pages/RWA/RWA";
 import PredictionMarkets from "./pages/predictionMarkets/PredictionMarkets";
 import Error from "./pages/error/Error";
+import Home from "./pages/home/Home";
 
 export const router = createBrowserRouter([
   { 
@@ -59,5 +60,9 @@ export const router = createBrowserRouter([
   {
     path: "/signup",
     Component: Signup,
+  },
+  {
+    path: "/home",
+    Component: Home,
   }
 ]);

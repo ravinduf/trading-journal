@@ -35,7 +35,7 @@ export function isAuthenticatedLoader() {
   console.log("-------isAuthenticated-------", isAuthenticated);
   
   if (!isAuthenticated) {
-    throw redirect("/auth/login");
+    throw redirect("/home");
   }
 
   return null;

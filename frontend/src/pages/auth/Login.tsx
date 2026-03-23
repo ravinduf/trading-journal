@@ -69,7 +69,7 @@ const Login = () => {
           )}
         >
           <header className="space-y-2">
-            <h2 className="font-['Orbitron',sans-serif] text-3xl font-bold tracking-tight text-white">
+            <h2 className="font-orbitron text-3xl font-bold tracking-tight text-white">
               Login
             </h2>
           </header>
@@ -132,7 +132,7 @@ const Login = () => {
             <Button
               type="submit"
               className={cn(
-                "group h-auto w-full rounded-lg border-0 py-4 font-['Orbitron',sans-serif] text-sm font-bold tracking-widest text-[#2f3131] uppercase shadow-none",
+                "group h-auto w-full rounded-lg border-0 py-4 font-orbitron text-sm font-bold tracking-widest text-[#2f3131] uppercase shadow-none",
                 "bg-linear-to-br from-white to-[#e2e2e2]",
                 "hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-[0.98]"
               )}

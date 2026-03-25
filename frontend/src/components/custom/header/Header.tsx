@@ -30,7 +30,7 @@ const Header = () => {
         <div className="mx-auto flex w-full  items-center justify-between">
           <div className="flex items-center gap-8">
             <div onClick={() => navigate("/")} className="cursor-pointer">
-              <AppHeader variant="nav" as="h1" size="24px" className="text-white uppercase tracking-widest hidden md:block" />
+              <AppHeader variant="nav" as="h1" size="24px" className="text-white uppercase tracking-widest " />
             </div>
             <nav className="hidden items-center gap-6 md:flex">
               {primaryLinks.map((link) => (
@@ -64,27 +64,27 @@ const Header = () => {
             <DropdownMenuContent
               align="end"
               sideOffset={10}
-              className="w-44 overflow-hidden rounded-xl border-white/10 bg-overlay-bg/95 p-0 text-slate-300 shadow-2xl backdrop-blur-2xl"
+              className="w-44 overflow-hidden rounded-xl border-white/10 bg-overlay-bg/90 p-0 text-slate-300 shadow-2xl backdrop-blur-2xl"
             >
               <DropdownMenuLabel className="space-y-1 border-b border-white/5 p-3 font-normal">
-                <p className="font-orbitron text-[10px] tracking-widest text-slate-500 uppercase">
+                <p className="font-orbitron text-[10px] tracking-widest text-white uppercase">
                   Account
                 </p>
-                <p className="text-sm font-semibold text-white">Verified User</p>
+                <p title={user?.email} className="text-sm font-semibold text-white w-11/12 overflow-hidden text-ellipsis whitespace-nowrap">{user?.email}</p>
               </DropdownMenuLabel>
               <div className="py-1">
-                <DropdownMenuItem className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white">
-                  <Settings className="size-4" />
+                <DropdownMenuItem className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white ">
+                  <Settings className="size-4 text-slate-400! mt-0.5" />
                   Settings
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white"
+                  className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white "
                   onSelect={() => {
                     logout();
                     navigate("/home");
                   }}
                 >
-                  <LogOut className="size-4" />
+                  <LogOut className="size-4 text-slate-400! mt-0.5" />
                   Logout
                 </DropdownMenuItem>
               </div>

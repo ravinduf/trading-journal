@@ -10,12 +10,13 @@ import RWA from "./pages/RWA/RWA";
 import PredictionMarkets from "./pages/predictionMarkets/PredictionMarkets";
 import Error from "./pages/error/Error";
 import Home from "./pages/home/Home";
+import { initLoader } from "./initLoader";
 
 export const router = createBrowserRouter([
   { 
     path: "/", 
     Component: PrimaryLayout,
-    loader: () => isAuthenticatedLoader(),
+    loader: () => isAuthenticatedLoader(() => initLoader()),
     errorElement: <Error />,
     children: [
       {

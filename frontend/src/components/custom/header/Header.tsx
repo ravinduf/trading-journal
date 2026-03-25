@@ -45,7 +45,7 @@ const Header = () => {
               className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 pl-2 transition-all hover:bg-white/10 active:scale-95 lg:pl-3"
               type="button"
             >
-              <span className="hidden font-orbitron text-xs tracking-tight text-slate-300 lg:block">
+              <span className="hidden font-inter text-xs tracking-tight text-slate-300 lg:block">
                 {user?.username}
               </span>
               <UserCircle2 className="size-8 rounded-full border border-white/20 text-slate-200" strokeWidth={1.4} />

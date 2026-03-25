@@ -1,8 +1,23 @@
+import { userAtom } from "@/atoms/userAtoms";
 import Header from "@/components/custom/header/Header";
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { useSetAtom } from "jotai";
+import { useEffect } from "react";
+
+import { Outlet, useLoaderData } from "react-router-dom";
 
 const PrimaryLayout = () => {
+
+  const { data } = useLoaderData();
+
+
+  const setUser = useSetAtom(userAtom);
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data]);
+
   return (
     <>
       <Header />

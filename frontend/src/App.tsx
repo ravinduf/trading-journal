@@ -9,6 +9,8 @@ import { Toaster } from "sonner";
 gsap.registerPlugin(useGSAP);
 
 function App() {
+
+  
   return (
     <>
       <RouterProvider router={router} />

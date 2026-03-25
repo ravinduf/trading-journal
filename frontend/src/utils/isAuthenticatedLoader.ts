@@ -1,4 +1,4 @@
-import { redirect } from "react-router-dom";
+import { redirect, type LoaderFunctionArgs } from "react-router-dom";
 import type { IUserTokens } from "@/atoms/userAtoms";
 import { isTokenExpired } from "@/utils/jwtUtils";
 
@@ -9,33 +9,35 @@ import { isTokenExpired } from "@/utils/jwtUtils";
  */
 function checkAuthenticationFromStorage(): boolean {
   try {
-    const stored = localStorage.getItem('userTokens');
+    const stored = localStorage.getItem("userTokens");
     if (!stored) return false;
 
     const userTokens: IUserTokens | null = JSON.parse(stored);
     if (!userTokens) return false;
 
-    // Check if access token exists and is not expired
     if (!userTokens.access || isTokenExpired(userTokens.access)) {
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Error checking authentication from storage:', error);
+    console.error("Error checking authentication from storage:", error);
     return false;
   }
 }
 
-export function isAuthenticatedLoader() {
-  // Read directly from localStorage since loaders run synchronously
-  // before atomWithStorage has hydrated
+
+export async function isAuthenticatedLoader<T>(
+  dataLoader?: () => T | Promise<T>
+): Promise<T | null> {
   const isAuthenticated = checkAuthenticationFromStorage();
 
-  console.log("-------isAuthenticated-------", isAuthenticated);
-  
   if (!isAuthenticated) {
     throw redirect("/home");
+  }
+
+  if (dataLoader) {
+    return await dataLoader();
   }
 
   return null;

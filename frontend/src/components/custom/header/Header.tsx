@@ -3,6 +3,13 @@ import { LayoutGrid, LogOut, Settings, TrendingUp, UserCircle2, Wallet } from "l
 import { logoutAtom, userAtom } from "@/atoms/userAtoms";
 import { useAtomValue, useSetAtom } from "jotai";
 import { NavLink, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import AppHeader from "../appHeader/AppHeader";
 
 const Header = () => {
@@ -40,52 +47,53 @@ const Header = () => {
               ))}
             </nav>
           </div>
-          <div className="relative group">
-            <button
-              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 pl-2 transition-all hover:bg-white/10 active:scale-95 lg:pl-3"
-              type="button"
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="flex items-center gap-2 rounded-full border outline-none!  bg-white/5 p-1 pl-2 transition-all hover:bg-white/10  lg:pl-3"
+                type="button"
+              >
+                <span className="hidden font-inter text-base tracking-tight text-slate-300 lg:block md:mb-1">
+                  {user?.username}
+                </span>
+                <UserCircle2 className="size-8 rounded-full border border-white/20 text-slate-200" strokeWidth={1.4} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={10}
+              className="w-44 overflow-hidden rounded-xl border-white/10 bg-overlay-bg/95 p-0 text-slate-300 shadow-2xl backdrop-blur-2xl"
             >
-              <span className="hidden font-inter text-xs tracking-tight text-slate-300 lg:block">
-                {user?.username}
-              </span>
-              <UserCircle2 className="size-8 rounded-full border border-white/20 text-slate-200" strokeWidth={1.4} />
-            </button>
-            
-            <div className="invisible absolute right-0 mt-3 w-44 translate-y-2 overflow-hidden rounded-xl border border-white/10 bg-[#11121f]/90 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <div className="border-b border-white/5 p-3">
+              <DropdownMenuLabel className="space-y-1 border-b border-white/5 p-3 font-normal">
                 <p className="font-orbitron text-[10px] tracking-widest text-slate-500 uppercase">
                   Account
                 </p>
                 <p className="text-sm font-semibold text-white">Verified User</p>
-              </div>
+              </DropdownMenuLabel>
               <div className="py-1">
-                <button
-                  type="button"
-                  className="flex w-full items-center gap-3 px-4 py-2 text-left text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
-                >
+                <DropdownMenuItem className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white">
                   <Settings className="size-4" />
-                  <span className="text-sm">Settings</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer gap-3 px-4 py-2 text-slate-400 focus:bg-white/5 focus:text-white"
+                  onSelect={() => {
                     logout();
                     navigate("/home");
                   }}
-                  className="flex w-full items-center gap-3 px-4 py-2 text-left text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
                 >
                   <LogOut className="size-4" />
-                  <span className="text-sm">Logout</span>
-                </button>
+                  Logout
+                </DropdownMenuItem>
               </div>
-            </div>
-          </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
       <div className="h-[68px] md:h-[76px]" />
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#11121f]/90 px-8 py-4 backdrop-blur-2xl md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-overlay-bg/90 px-8 py-4 backdrop-blur-2xl md:hidden">
         <div className="flex items-center justify-around">
           <NavLink
             to="/dashboard"

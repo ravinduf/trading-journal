@@ -29,7 +29,9 @@ const Header = () => {
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-background-color/95 px-4 py-3 shadow-[0_0_40px_rgba(255,255,255,0.04)] backdrop-blur-xl md:px-6 md:py-4">
         <div className="mx-auto flex w-full  items-center justify-between">
           <div className="flex items-center gap-8">
-            <AppHeader variant="nav" as="h1" size="24px" className="text-white uppercase tracking-widest" />
+            <div onClick={() => navigate("/")} className="cursor-pointer">
+              <AppHeader variant="nav" as="h1" size="24px" className="text-white uppercase tracking-widest hidden md:block" />
+            </div>
             <nav className="hidden items-center gap-6 md:flex">
               {primaryLinks.map((link) => (
                 <NavLink

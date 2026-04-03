@@ -12,6 +12,6 @@ class HoldingAdmin(admin.ModelAdmin):
 
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ("holding", "date", "amount", "price")
+    list_display = ("holding", "date", "type", "amount", "price")
     list_filter = ("holding",)
     date_hierarchy = "date"

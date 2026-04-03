@@ -5,6 +5,7 @@ from django.db import models
 class Holding(models.Model):
     """A spot holding row, scoped to a user for filtering by the logged-in user."""
 
+    symbol = models.CharField(max_length=32, db_index=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -20,9 +21,18 @@ class Holding(models.Model):
     class Meta:
         ordering = ["-created_at"]
         verbose_name_plural = "Holdings"
+        constraints = [
+            models.UniqueConstraint(fields=["user", "symbol"], name="uniq_holding_user_symbol"),
+        ]
 
     def __str__(self) -> str:
-        return f"{self.name} ({self.user_id})"
+        return f"{self.symbol} - {self.name} ({self.user_id})"
+
+
+class RecordType(models.TextChoices):
+    BUY = "buy", "Buy"
+    SELL = "sell", "Sell"
+    REWARDS = "rewards", "Rewards"
 
 
 class Record(models.Model):
@@ -34,6 +44,11 @@ class Record(models.Model):
         related_name="records",
     )
     date = models.DateTimeField()
+    type = models.CharField(
+        max_length=16,
+        choices=RecordType.choices,
+        default=RecordType.BUY,
+    )
     amount = models.DecimalField(max_digits=28, decimal_places=10)
     price = models.DecimalField(max_digits=28, decimal_places=10)
 
@@ -42,4 +57,4 @@ class Record(models.Model):
         verbose_name_plural = "Records"
 
     def __str__(self) -> str:
-        return f"{self.holding.name} @ {self.date} ({self.amount})"
+        return f"{self.holding.name} @ {self.date} ({self.type}, {self.amount})"

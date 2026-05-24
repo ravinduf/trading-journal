@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background-color: #040510;
+  --color-background-color: var(--background);
   --font-body-inter: "Inter", system-ui, sans-serif;
   --font-irish-grover: "Irish Grover", system-ui, sans-serif;
   --font-orbitron: "Orbitron", system-ui, sans-serif;
@@ -16,7 +16,7 @@
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   --background-size-tactical-grid: 40px 40px;
-  --overlay-bg: #11121f;
+  --color-overlay-bg: #11121f; 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -56,7 +56,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.145 0 0);
+  --background: #040510;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);

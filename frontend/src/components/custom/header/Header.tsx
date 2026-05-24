@@ -52,13 +52,16 @@ const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="flex items-center gap-2 rounded-full border outline-none!  bg-white/5 p-1 pl-2 transition-all hover:bg-white/10  lg:pl-3"
+                className="flex items-center gap-2 rounded-lg border outline-none!  bg-white/5 p-1 pl-2 transition-all hover:bg-white/10  lg:pl-3"
                 type="button"
               >
-                <span className="hidden font-inter text-base tracking-tight text-slate-300 lg:block md:mb-1">
+                <span className="hidden font-inter text-base tracking-tight text-slate-300 lg:block md:mb-1 px-1 ">
                   {user?.username}
                 </span>
-                <UserCircle2 className="size-8 rounded-full border border-white/20 text-slate-200" strokeWidth={1.4} />
+
+                <span className="size-8 rounded-lg bg-card flex flex-row items-center justify-center">
+                  <UserCircle2 className="size-6 rounded-full border border-white/20 text-slate-200" strokeWidth={1.4} />
+                </span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

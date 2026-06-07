@@ -7,7 +7,7 @@ import RecentActivity from "./components/RecentActivity";
 
 const Spot = () => {
   return (
-    <div className="mx-auto max-w-7xl space-y-8 pb-28 font-[Inter,system-ui,sans-serif] text-[#e3e3ff] md:pb-8">
+    <div className="mx-auto max-w-10xl space-y-8 pb-28 font-[Inter,system-ui,sans-serif] text-[#e3e3ff] md:pb-8">
       <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <PortfolioSummaryCard />
         <PortfolioAnalytics />

@@ -1,5 +1,5 @@
 import { ChevronDown, Coins, Diamond, PlusCircle, PlusSquare, Zap } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import StatusBadge from "@/components/custom/statusBadge/StatusBadge";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -111,9 +111,7 @@ function HoldingRow({
                   className="flex flex-col gap-3 border-b border-white/5 py-2 text-xs last:border-0 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex items-center gap-3">
-                    <Badge className="rounded bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold uppercase text-emerald-400 hover:bg-emerald-500/10">
-                      Buy
-                    </Badge>
+                    <StatusBadge type="red" text="Buy" />
                     <span className="text-[#a4a8d4]">{trade.date}</span>
                   </div>
                   <div className="flex gap-6 sm:gap-8">

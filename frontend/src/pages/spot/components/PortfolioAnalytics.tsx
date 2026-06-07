@@ -43,7 +43,7 @@ function AnalyticsTabToggle() {
       <TabsTrigger
         value="allocation"
         className={cn(
-          "gap-2 rounded-md border-0 px-3 py-1.5 text-xs font-medium text-[#a4a8d4] shadow-none",
+          "gap-2 rounded-md border-0 px-3 py-1.5 text-xs font-medium text-[#a4a8d4] shadow-none flex flex-row",
           "data-[state=active]:bg-white/10 data-[state=active]:text-white"
         )}
       >
@@ -53,7 +53,7 @@ function AnalyticsTabToggle() {
       <TabsTrigger
         value="growth"
         className={cn(
-          "gap-2 rounded-md border-0 px-3 py-1.5 text-xs font-medium text-[#a4a8d4] shadow-none",
+          "gap-2 rounded-md border-0 px-3 py-1.5 text-xs font-medium text-[#a4a8d4] shadow-none flex flex-row",
           "data-[state=active]:bg-white/10 data-[state=active]:text-white"
         )}
       >
@@ -120,16 +120,18 @@ function GrowthView() {
 
   return (
     <div className="flex min-h-[220px] w-full flex-col justify-end gap-4">
-      <div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-[#a4a8d4]">
-          Total Profit
-        </p>
-        <p className="text-2xl font-bold text-emerald-400">
-          {formatSignedCurrency(PORTFOLIO_SUMMARY.totalProfit)}{" "}
-          <span className="ml-1 text-sm font-medium opacity-60">
-            +{PORTFOLIO_SUMMARY.totalProfitPercent}%
-          </span>
-        </p>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#a4a8d4]">
+            Total Profit
+          </p>
+          <p className="text-2xl font-bold text-emerald-400">
+            {formatSignedCurrency(PORTFOLIO_SUMMARY.totalProfit)}{" "}
+            <span className="ml-1 text-sm font-medium opacity-60">
+              +{PORTFOLIO_SUMMARY.totalProfitPercent}%
+            </span>
+          </p>
+        </div>
         <div className="mt-3 flex flex-wrap gap-2">
           {GROWTH_RANGES.map((item) => (
             <button

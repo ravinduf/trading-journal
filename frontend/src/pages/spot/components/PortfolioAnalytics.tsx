@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { LineChart, PieChart } from "lucide-react";
-import { Area, AreaChart, Cell, Pie, PieChart as RechartsPieChart } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Cell,
+  Pie,
+  PieChart as RechartsPieChart,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -117,31 +126,30 @@ function AllocationView() {
 function GrowthView() {
   const [range, setRange] = useState<GrowthRange>("1M");
   const data = GROWTH_DATA[range];
+  const minValue = Math.min(...data.map((point) => point.value));
 
   return (
-    <div className="flex min-h-[220px] w-full flex-col justify-end gap-4">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#a4a8d4]">
-            Total Profit
-          </p>
-          <p className="text-2xl font-bold text-emerald-400">
-            {formatSignedCurrency(PORTFOLIO_SUMMARY.totalProfit)}{" "}
-            <span className="ml-1 text-sm font-medium opacity-60">
-              +{PORTFOLIO_SUMMARY.totalProfitPercent}%
-            </span>
-          </p>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-2">
+    <div className="relative flex min-h-[220px] w-full flex-col justify-end gap-4">
+      <div className="flex flex-col gap-1">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-[#a4a8d4]">
+          Total Profit
+        </p>
+        <p className="text-2xl font-bold text-emerald-400">
+          {formatSignedCurrency(PORTFOLIO_SUMMARY.totalProfit)}{" "}
+          <span className="ml-1 text-sm font-medium opacity-60">
+            +{PORTFOLIO_SUMMARY.totalProfitPercent}%
+          </span>
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
           {GROWTH_RANGES.map((item) => (
             <button
               key={item}
               type="button"
               onClick={() => setRange(item)}
               className={cn(
-                "rounded px-2 py-1 text-[10px] font-bold transition-colors",
+                "px-2 py-1 text-[10px] font-bold transition-colors",
                 range === item
-                  ? "bg-white/10 text-white"
+                  ? "rounded bg-white/10 text-white"
                   : "text-[#a4a8d4] hover:text-white"
               )}
             >
@@ -151,22 +159,37 @@ function GrowthView() {
         </div>
       </div>
 
-      <ChartContainer config={growthChartConfig} className="mt-2 h-48 w-full">
-        <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+      <ChartContainer
+        config={growthChartConfig}
+        className="mt-8 h-48 w-full [&_.recharts-cartesian-axis]:hidden"
+      >
+        <AreaChart data={data} margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="spotGrowthFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
               <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <XAxis dataKey="date" hide />
+          <YAxis hide domain={[minValue * 0.98, "auto"]} />
+          <ChartTooltip
+            cursor={{ stroke: "rgba(255,255,255,0.08)", strokeWidth: 1 }}
+            content={<ChartTooltipContent />}
+          />
+          <ReferenceLine
+            y={minValue}
+            stroke="rgba(255,255,255,0.05)"
+            strokeWidth={1}
+          />
           <Area
             type="monotone"
             dataKey="value"
             stroke="#10b981"
             strokeWidth={3}
+            strokeLinecap="round"
             fill="url(#spotGrowthFill)"
             dot={false}
+            activeDot={{ r: 4, fill: "#10b981", stroke: "#11121f", strokeWidth: 2 }}
           />
         </AreaChart>
       </ChartContainer>

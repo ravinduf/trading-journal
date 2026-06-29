@@ -9,7 +9,6 @@ const PrimaryLayout = () => {
 
   const { data } = useLoaderData();
 
-
   const setUser = useSetAtom(userAtom);
 
   useEffect(() => {

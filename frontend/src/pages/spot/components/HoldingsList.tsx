@@ -111,7 +111,7 @@ function HoldingRow({
                   className="flex flex-col gap-3 border-b border-white/5 py-2 text-xs last:border-0 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex items-center gap-3">
-                    <StatusBadge type="red" text="Buy" />
+                    <StatusBadge type="green" text="Buy" />
                     <span className="text-[#a4a8d4]">{trade.date}</span>
                   </div>
                   <div className="flex gap-6 sm:gap-8">
@@ -136,7 +136,11 @@ function HoldingRow({
   );
 }
 
-export default function HoldingsList() {
+type HoldingsListProps = {
+  onCreateClick: () => void;
+};
+
+export default function HoldingsList({ onCreateClick }: HoldingsListProps) {
   return (
     <section className="space-y-4">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
@@ -144,7 +148,11 @@ export default function HoldingsList() {
           <h2 className="text-xl font-bold tracking-tight text-white">Active Holdings</h2>
           <p className="text-xs text-[#a4a8d4]">Real-time spot portfolio management</p>
         </div>
-        <Button className="hidden gap-2 bg-[#c5c7c8] font-bold text-[#3e4142] shadow-lg shadow-white/10 hover:bg-[#b7b9ba] md:inline-flex">
+        <Button
+          type="button"
+          onClick={onCreateClick}
+          className="hidden gap-2 bg-[#c5c7c8] font-bold text-[#3e4142] shadow-lg shadow-white/10 hover:bg-[#b7b9ba] md:inline-flex"
+        >
           <PlusCircle className="size-4" />
           Create New Holding
         </Button>

@@ -14,4 +14,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    // CMC Pro API does not allow browser CORS — proxy in dev.
+    proxy: {
+      "/cmc-api": {
+        target: "https://pro-api.coinmarketcap.com",
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/cmc-api/, ""),
+      },
+    },
+  },
 })

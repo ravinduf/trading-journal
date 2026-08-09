@@ -151,7 +151,7 @@ export default function HoldingsList({ onCreateClick }: HoldingsListProps) {
         <Button
           type="button"
           onClick={onCreateClick}
-          className="hidden gap-2 bg-[#c5c7c8] font-bold text-[#3e4142] shadow-lg shadow-white/10 hover:bg-[#b7b9ba] md:inline-flex"
+          className="hidden gap-2 font-bold shadow-lg shadow-white/10 md:inline-flex"
         >
           <PlusCircle className="size-4" />
           Create New Holding

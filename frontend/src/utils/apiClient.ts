@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { getDefaultStore } from 'jotai';
 import { userTokensAtom } from '@/atoms/userAtoms';
+import { BE_API } from '@/utils/api';
 
 // Get the default Jotai store to access atoms
 const store = getDefaultStore();
@@ -45,7 +46,7 @@ axiosInstance.interceptors.response.use(
       // Try to refresh token if refresh token exists
       if (userTokens?.refresh) {
         try {
-          const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
+          const response = await axios.post(`${API_BASE_URL}${BE_API.token.refresh}`, {
             refresh: userTokens.refresh,
           });
 

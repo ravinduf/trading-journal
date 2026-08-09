@@ -140,5 +140,57 @@
     bg-tactical-grid;
     background-size: var(--background-size-tactical-grid);
   }
+
+  /* ── Loading Screen ─────────────────────────────────────────── */
+  .loading-screen-root {
+    @apply relative flex min-h-screen items-center justify-center overflow-hidden;
+    background-color: #040510;
+  }
+
+  .loading-grid-overlay {
+    background-image:
+      linear-gradient(rgba(30, 35, 70, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 35, 70, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    @apply pointer-events-none absolute inset-0 z-10;
+  }
+
+  .loading-scanline {
+    @apply absolute left-0 z-10 h-0.5 w-full;
+    background: linear-gradient(to right, transparent, rgba(197, 199, 200, 0.05), transparent);
+    top: -2px;
+    animation: loading-scanline-move 8s linear infinite;
+  }
+
+  .loading-pulse-breathing {
+    animation: loading-pulse-breathing 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .loading-spin {
+    animation: loading-spin 3s linear infinite;
+  }
+}
+
+@keyframes loading-pulse-breathing {
+  0%, 100% {
+    opacity: 0.15;
+    filter: blur(1px);
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@keyframes loading-scanline-move {
+  0%   { top: -2%; }
+  100% { top: 102%; }
+}
+
+@keyframes loading-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 

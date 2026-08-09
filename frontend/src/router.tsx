@@ -10,6 +10,7 @@ import RWA from "./pages/RWA/RWA";
 import PredictionMarkets from "./pages/predictionMarkets/PredictionMarkets";
 import Error from "./pages/error/Error";
 import Home from "./pages/home/Home";
+import { homeLoader } from "./pages/home/homeLoaders";
 import { initLoader } from "./initLoader";
 
 export const router = createBrowserRouter([
@@ -65,5 +66,6 @@ export const router = createBrowserRouter([
   {
     path: "/home",
     Component: Home,
+    loader: homeLoader,
   }
 ]);

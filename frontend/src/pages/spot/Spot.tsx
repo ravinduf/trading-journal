@@ -25,7 +25,7 @@ const Spot = () => {
           type="button"
           size="icon-lg"
           onClick={() => setCreateModalOpen(true)}
-          className="fixed right-6 bottom-24 z-40 size-14 rounded-full bg-[#c5c7c8] text-[#3e4142] shadow-2xl hover:bg-[#b7b9ba] md:hidden"
+          className="fixed right-6 bottom-24 z-40 size-14 rounded-full shadow-2xl  md:hidden"
           aria-label="Create new holding"
         >
           <Plus className="size-7" />

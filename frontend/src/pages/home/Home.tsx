@@ -1,64 +1,18 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/button";
 import { LineChart, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AppHeader, { APP_NAME } from "@/components/custom/appHeader/AppHeader";
-
-gsap.registerPlugin(useGSAP);
-
-const TICKER_ITEMS = [
-  { pair: "BTC/USDT", change: "+2.45%", price: "67,432.12", up: true },
-  { pair: "ETH/USDT", change: "-1.12%", price: "3,541.80", up: false },
-  { pair: "SOL/USDT", change: "+5.82%", price: "148.92", up: true },
-  { pair: "LINK/USDT", change: "+0.25%", price: "18.45", up: true },
-  { pair: "ARB/USDT", change: "-4.32%", price: "1.12", up: false },
-] as const;
+import InitialLoadingScreen from "@/components/custom/loaders/InitialLoadingScreen";
+import TickerTrack from "./components/TickerTrack";
 
 const Home = () => {
-  // Outer wrapper (overflow hidden): useGSAP scopes context cleanup to this subtree.
-  const tickerContainerRef = useRef<HTMLDivElement>(null);
-  // Inner row: two identical ticker segments side by side; we animate translateX.
-  const tickerTrackRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useGSAP(
-    () => {
-      const track = tickerTrackRef.current;
-      if (!track) return;
-
-      let tween: gsap.core.Tween | undefined;
-
-      // (Re)build the loop: measure width, tween by exactly one segment so the duplicate lines up.
-      const run = () => {
-        tween?.kill();
-        gsap.set(track, { x: 0 });
-        // scrollWidth is both copies; half is one copy — seamless when repeat snaps back to 0.
-        const half = track.scrollWidth / 2;
-        if (half < 1) return;
-        tween = gsap.to(track, {
-          x: -half,
-          duration: 30,
-          ease: "none",
-          repeat: -1,
-        });
-      };
-
-      run();
-      // Reflow (viewport, fonts, etc.) changes segment width — restart so speed/distance stay correct.
-      const ro = new ResizeObserver(() => {
-        run();
-      });
-      ro.observe(track);
-
-      return () => {
-        ro.disconnect();
-        tween?.kill();
-      };
-    },
-    { scope: tickerContainerRef }
-  );
+  if (isLoading) {
+    return <InitialLoadingScreen />;
+  }
 
   return (
     <div className="min-h-screen bg-[#11121f] font-[Inter,system-ui,sans-serif] text-[#e2e1f3] selection:bg-white selection:text-[#11121f]">
@@ -69,7 +23,7 @@ const Home = () => {
           "bg-size-[40px_40px]"
         )}
       >
-        <section className="relative flex flex-col items-center justify-center overflow-hidden px-8 py-32 text-center lg:py-48">
+        <section className="relative flex flex-col items-center justify-center overflow-hidden px-8 py-32  text-center lg:py-48">
           <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-white/5 blur-[120px]" />
           <div className="absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-white/5 blur-[120px]" />
           <div className="relative z-10 max-w-4xl">
@@ -100,35 +54,7 @@ const Home = () => {
           </div>
         </section>
 
-        <div
-          ref={tickerContainerRef}
-          className="w-full overflow-hidden border-y border-white/5 bg-[#191b27] py-3 whitespace-nowrap"
-        >
-          <div ref={tickerTrackRef} className="flex w-max gap-12 will-change-transform">
-            {[0, 1].map((dup) => (
-              <div key={dup} className="flex items-center gap-12">
-                {TICKER_ITEMS.map((row) => (
-                  <div key={`${dup}-${row.pair}`} className="flex items-center gap-4">
-                    <span className="font-['Orbitron',sans-serif] text-xs font-bold text-white">
-                      {row.pair}
-                    </span>
-                    <span
-                      className={cn(
-                        "font-mono text-xs",
-                        row.up ? "text-green-400" : "text-red-400"
-                      )}
-                    >
-                      {row.change}
-                    </span>
-                    <span className="font-mono text-xs text-gray-500">
-                      {row.price}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        <TickerTrack />
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
